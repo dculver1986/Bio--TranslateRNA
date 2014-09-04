@@ -3,8 +3,9 @@
 use strict;
 use warnings;
 use Data::Dumper;
-use Test::More;
-use Test::Exception;
+use Test::Most;
+use File::Basename;
+use Cwd qw(getcwd);
 use Bio::TranslateRNA qw(rna_to_protein file_to_protein);
 use Readonly;
 
@@ -20,7 +21,8 @@ subtest 'Test rna_to_protein method with valid RNA string' => sub {
 };
 
 subtest 'Test file_to_protein method with valid RNA string' => sub {
-    my $file = '/home/dculver/Bio--TranslateRNA/t/rna.txt';
+    my $dir = getcwd;
+    my $file = $dir.'/t/rna.txt';
     my $protein_from_file = file_to_protein($file);
     cmp_ok( $protein_from_file, 'eq', $PROTEIN_RESULT,
         'Correct Protein result for file_to_protein method');
