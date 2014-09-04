@@ -2,6 +2,7 @@ package Bio::TranslateRNA;
 
 use strict;
 use warnings;
+use File::Basename;
 use Data::Dumper;
 use Carp qw(croak);
 use Exporter;
