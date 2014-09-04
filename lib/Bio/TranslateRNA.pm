@@ -107,17 +107,27 @@ sub rna_to_protein {
 
     return $rna;
 }
-=cut
+
 sub file_to_protein {
-    my $file = shift;
-    my $rna;
+    my $file = $_[0];
+    my $protein;
+    my @rna_segments;
 
     open( my $fh, '<', $file ) or die "Could not open file $file: $!\n";
     while ( my $string = <$fh>  ) {
+        @rna_segments = $string =~ /(\w{3})/g;
     }
-
-       return $rna;
+    for my $motif (@rna_segments) {
+        last if $motif =~ m/UAA|UAG|UGA/;
+        if ( length($motif) != 3 ) {
+            croak "file_to_protein caught invalid string: $motif";
+        }
+        if ( exists $codons{$motif}) {
+            $protein .= $codons{$motif};
+        }
+    }
+    return $protein;
 }
-=cut
+
 1;
 
