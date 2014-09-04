@@ -2,8 +2,6 @@ package Bio::TranslateRNA;
 
 use strict;
 use warnings;
-use File::Basename;
-use Data::Dumper;
 use Carp qw(croak);
 use Exporter;
 
@@ -16,6 +14,52 @@ our @EXPORT_OK = qw(rna_to_protein file_to_protein);
 
 =head1 NAME
     Bio::TranslateRNA - Module to translate RNA string to Protein
+
+=head1 SYNOPSIS
+
+    use strict;
+    use warnings;
+    use Bio::TranslateRNA qw(rna_to_protein file_to_protein);
+
+    my $rna_string = 'AUGGCCAUGGCGCCCAGAACUGAGAUCAAUAGUACCCGUAUUAACGGGUGA';
+    my $protein    = rna_to_protein($rna_string);
+    print "My protein is: $protein \n";
+
+=head1 DESCRIPTION
+    Module to convert RNA strings to protein strings. It will also accept
+    a file containing an RNA string.
+
+=head1 METHODS
+
+=head2 rna_to_protein
+
+    use Bio::TranslateRNA qw(rna_to_protein);
+
+    my $rna_string = 'AUGGCCAUGGCGCCCAGAACUGAGAUCAAUAGUACCCGUAUUAACGGGUGA';
+    my $protein    = rna_to_protein($rna_string);
+
+=head2 file_to_protein
+
+    use Bio::TranslateRNA qw(file_to_protein);
+
+    my $file = '/path/to/rna_file.txt';
+    open( my $fh, '<', $file ) or die "Could not open file $file: $!\n";
+    my $protein_from_file = file_to_protein($file);
+
+=head1 AUTHOR
+    Daniel Culver, C<< perlsufi@cpan.org >>
+
+=head1 ACKNOWLEDGEMENTS
+
+    Eris Caffee
+
+    HostGator, L<< www.hostgator.com >>
+
+    Robert Stone, C<< drzigman@cpan.org >>
+
+=head1 COPYRIGHT
+
+    This module is free software; you can redistribute it and/or modify it under the same terms as Perl itself.
 =cut
 
 our %codons = (
@@ -128,6 +172,7 @@ sub file_to_protein {
         }
     }
     return $protein;
+    close $fh;
 }
 
 1;
