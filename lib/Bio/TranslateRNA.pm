@@ -26,8 +26,12 @@ our @EXPORT_OK = qw(rna_to_protein file_to_protein);
     print "My protein is: $protein \n";
 
 =head1 DESCRIPTION
-    Module to convert RNA strings to protein strings. It will also accept
-    a file containing an RNA string.
+
+Module to convert RNA strings to protein strings. It will also accept
+a file containing an RNA string. This module maps out 3 letter segments of
+a valid RNA string to its corresponding protein letter. Segments such as
+UGA or UAG or UAA do not have a protein letter and are considered the end
+of the RNA string.
 
 =head1 METHODS
 
@@ -38,6 +42,8 @@ our @EXPORT_OK = qw(rna_to_protein file_to_protein);
     my $rna_string = 'AUGGCCAUGGCGCCCAGAACUGAGAUCAAUAGUACCCGUAUUAACGGGUGA';
     my $protein    = rna_to_protein($rna_string);
 
+Returns the protein string from an rna string.
+
 =head2 file_to_protein
 
     use Bio::TranslateRNA qw(file_to_protein);
@@ -46,20 +52,24 @@ our @EXPORT_OK = qw(rna_to_protein file_to_protein);
     open( my $fh, '<', $file ) or die "Could not open file $file: $!\n";
     my $protein_from_file = file_to_protein($file);
 
+Returns protein string from a file containing an RNA string.
+
 =head1 AUTHOR
-    Daniel Culver, C<< perlsufi@cpan.org >>
+
+Daniel Culver, C<< perlsufi@cpan.org >>
 
 =head1 ACKNOWLEDGEMENTS
 
-    Eris Caffee
+Eris Caffee, C<< eris-caffee@eldalin.com >>
 
-    HostGator, L<< www.hostgator.com >>
+HostGator, L<< www.hostgator.com >>
 
-    Robert Stone, C<< drzigman@cpan.org >>
+Robert Stone, C<< drzigman@cpan.org >>
 
 =head1 COPYRIGHT
 
-    This module is free software; you can redistribute it and/or modify it under the same terms as Perl itself.
+This module is free software; you can redistribute it and/or modify it under the same terms as Perl itself.
+
 =cut
 
 our %codons = (
