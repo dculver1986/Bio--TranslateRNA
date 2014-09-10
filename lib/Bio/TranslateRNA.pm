@@ -8,6 +8,9 @@ use Exporter;
 our @ISA       = qw(Exporter);
 our @EXPORT_OK = qw(rna_to_protein file_to_protein);
 
+# VERSION
+# ABSTRACT: Module to Translate RNA strings to Protein
+
 =pod
 
 =encoding utf8
@@ -36,7 +39,6 @@ of the RNA string.
 =head1 METHODS
 
 =head2 rna_to_protein
-
     use Bio::TranslateRNA qw(rna_to_protein);
 
     my $rna_string = 'AUGGCCAUGGCGCCCAGAACUGAGAUCAAUAGUACCCGUAUUAACGGGUGA';
@@ -45,7 +47,6 @@ of the RNA string.
 Returns the protein string from an rna string.
 
 =head2 file_to_protein
-
     use Bio::TranslateRNA qw(file_to_protein);
 
     my $file = '/path/to/rna_file.txt';
@@ -53,7 +54,6 @@ Returns the protein string from an rna string.
     my $protein_from_file = file_to_protein($file);
 
 Returns protein string from a file containing an RNA string.
-
 =head1 AUTHOR
 
 Daniel Culver, C<< perlsufi@cpan.org >>
@@ -62,23 +62,22 @@ Daniel Culver, C<< perlsufi@cpan.org >>
 
 Eris Caffee, C<< eris-caffee@eldalin.com >>
 
-HostGator, L<< www.hostgator.com >>
+HostGator
 
 Robert Stone, C<< drzigman@cpan.org >>
 
 =head1 COPYRIGHT
-
-This module is free software; you can redistribute it and/or modify it under the same terms as Perl itself.
-
+This module is free software; you can redistribute it and/or modify it
+under the same terms as Perl itself.
 =cut
 
-our %codons = (      # keys with values of '' are the end of RNA string segments
+our %codons = (
     UUU => 'F',
+    UUC => 'F',
     CUU => 'L',
+    CUC => 'L',
     AUU => 'I',
     GUU => 'V',
-    UUC => 'F',
-    CUC => 'L',
     AUC => 'I',
     GUC => 'V',
     UUA => 'L',
@@ -121,7 +120,7 @@ our %codons = (      # keys with values of '' are the end of RNA string segments
     CAG => 'Q',
     AAG => 'K',
     GAG => 'E',
-    UGU => '',
+    UGU => 'C',
     CGU => 'R',
     AGU => 'S',
     GGU => 'G',
@@ -137,9 +136,7 @@ our %codons = (      # keys with values of '' are the end of RNA string segments
     CGG => 'R',
     AGG => 'R',
     GGG => 'G',
-
 );
-
 sub rna_to_protein {
 
     my $string = shift;
@@ -190,4 +187,3 @@ sub file_to_protein {
 }
 
 1;
-
