@@ -72,7 +72,7 @@ This module is free software; you can redistribute it and/or modify it under the
 
 =cut
 
-our %codons = (
+our %codons = (      # keys with values of '' are the end of RNA string segments
     UUU => 'F',
     CUU => 'L',
     AUU => 'I',
@@ -143,16 +143,18 @@ our %codons = (
 sub rna_to_protein {
 
     my $string = shift;
-    my $rna;
+    my $protein;
 
     while ( $string =~ s/^(\w{3})// ) {
         my $motif = $1;
-        last if $motif =~ m/UGA|UAG|UAA/;
+        if ( $motif =~ m/UGA|UAG|UAA/ ) {
+            $protein .= "\n";
+        }
         if ( length($motif) != 3 ) {
             croak "rna_to_protein caught invalid string: $motif";
         }
         if ( exists $codons{$motif} ) {
-            $rna .= $codons{$motif};
+            $protein .= $codons{$motif};
         }
         else {
             croak "rna_to_protein caught invalid string: $motif";
@@ -160,7 +162,7 @@ sub rna_to_protein {
 
     }
 
-    return $rna;
+    return $protein;
 }
 
 sub file_to_protein {
@@ -169,15 +171,17 @@ sub file_to_protein {
     my @rna_segments;
 
     open( my $fh, '<', $file ) or die "Could not open file $file: $!\n";
-    while ( my $string = <$fh>  ) {
+    while ( my $string = <$fh> ) {
         @rna_segments = $string =~ /(\w{3})/g;
     }
     for my $motif (@rna_segments) {
-        last if $motif =~ m/UAA|UAG|UGA/;
+        if ( $motif =~ /UAA|UAG|UGA/ ) {
+            $protein .= "\n";
+        }
         if ( length($motif) != 3 ) {
             croak "file_to_protein caught invalid string: $motif";
         }
-        if ( exists $codons{$motif}) {
+        if ( exists $codons{$motif} ) {
             $protein .= $codons{$motif};
         }
     }
