@@ -29,7 +29,7 @@ subtest 'Test file_to_protein method with valid RNA string' => sub {
 
 subtest 'Test file_to_protein method with valid, Large RNA string' => sub {
     my $dir = getcwd;
-    my $file = $dir.'/t/big_string.txt';
+    my $file = $dir.'/t/big_rna_string.txt';
     my $protein_from_file = file_to_protein($file);
 
     my $big_protein_result = $dir.'/t/big_protein_result.txt';
