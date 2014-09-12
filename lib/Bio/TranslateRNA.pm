@@ -139,7 +139,7 @@ our %codons = (
 );
 sub rna_to_protein {
 
-    my $string = shift;
+    my $string = shift || croak "rna_to_protein caught invalid string";
     my $protein;
 
     while ( $string =~ s/^(\w{3})// ) {
@@ -147,10 +147,10 @@ sub rna_to_protein {
         if ( $motif =~ m/UGA|UAG|UAA/ ) {
             $protein .= "\n";
         }
-        if ( length($motif) != 3 ) {
+        elsif ( length($motif) != 3 ) {
             croak "rna_to_protein caught invalid string: $motif";
         }
-        if ( exists $codons{$motif} ) {
+        elsif ( exists $codons{$motif} ) {
             $protein .= $codons{$motif};
         }
         else {
@@ -163,11 +163,13 @@ sub rna_to_protein {
 }
 
 sub file_to_protein {
+
     my $file = $_[0];
     my $protein;
     my @rna_segments;
 
     open( my $fh, '<', $file ) or die "Could not open file $file: $!\n";
+
     while ( my $string = <$fh> ) {
         @rna_segments = $string =~ /(\w{3})/g;
     }
@@ -175,11 +177,14 @@ sub file_to_protein {
         if ( $motif =~ /UAA|UAG|UGA/ ) {
             $protein .= "\n";
         }
-        if ( length($motif) != 3 ) {
+        elsif ( length($motif) != 3 ) {
             croak "file_to_protein caught invalid string: $motif";
         }
-        if ( exists $codons{$motif} ) {
+        elsif ( exists $codons{$motif} ) {
             $protein .= $codons{$motif};
+        }
+        else {
+            croak "file_to_protein caught invalid string: $motif";
         }
     }
     return $protein;
