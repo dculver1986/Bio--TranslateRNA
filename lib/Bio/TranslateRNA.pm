@@ -44,7 +44,8 @@ of the RNA string.
     my $rna_string = 'AUGGCCAUGGCGCCCAGAACUGAGAUCAAUAGUACCCGUAUUAACGGGUGA';
     my $protein    = rna_to_protein($rna_string);
 
-Returns the protein string from an rna string.
+Returns the protein string from an rna string. If an empty or invalid string is
+given, it will croak.
 
 =head2 file_to_protein
     use Bio::TranslateRNA qw(file_to_protein);
@@ -53,7 +54,9 @@ Returns the protein string from an rna string.
     open( my $fh, '<', $file ) or die "Could not open file $file: $!\n";
     my $protein_from_file = file_to_protein($file);
 
-Returns protein string from a file containing an RNA string.
+Returns protein string from a file containing an RNA string. If it contains an
+invalid string, it will croak.
+
 =head1 AUTHOR
 
 Daniel Culver, C<< perlsufi@cpan.org >>
