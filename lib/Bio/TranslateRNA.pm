@@ -191,7 +191,6 @@ sub file_to_protein {
         }
     }
     return $protein;
-    close $fh;
 }
 
 1;
